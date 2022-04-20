@@ -1,0 +1,26 @@
+:root{
+    --prpl: #41096e;
+}
+
+*{
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    position: sticky;
+}
+
+main{
+    justify-content: center;
+    text-align: center;
+}
+
+button{
+    background-color: var(--prpl);
+    color: white;
+}
