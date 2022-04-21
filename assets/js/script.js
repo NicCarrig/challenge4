@@ -2,6 +2,7 @@ var startBtnEl = document.querySelector("#start-btn");
 var scoreBtnEl = document.querySelector(".high-score-btn");
 var questionAreaEl = document.querySelector(".question");
 var answersAreaEl = document.querySelector(".answers-area");
+// var answerButtonEl = document.querySelector(".answer-btn");
 var timerEl = document.querySelector("#timer");
 var timer = 0;
 var questionCounter = 0;
@@ -30,6 +31,18 @@ var questions = [
     }
 
 ];
+
+function answerAreaEventHandler(event){
+    console.log(event.target);
+    var buttonClicked = event.target;
+    if (buttonClicked.hasAttribute("data-start")){
+        startQuiz();
+    }
+    else{
+        checkAnswer();
+    }
+
+}
 
 function startQuiz(){
     //should populate the screen with the first question and 4 buttons for multiple choice answers
@@ -75,12 +88,14 @@ function setButtonText(index){
 function checkAnswer(){
     //check the id of the button clicked against the answer key and update the timer
     //should probably call next question function
-
+    console.log("check answer");
+    questionCounter++;
+    nextQuestion();
 }
 
 function nextQuestion(){
     //update text content for question and choice buttons
-
+    console.log("show next question");
 }
 
 function startTimer(){
@@ -110,5 +125,5 @@ function resetQuiz(){
 
 }
 
-startBtnEl.addEventListener("click", startQuiz);
 scoreBtnEl.addEventListener("click", scoreScreen);
+answersAreaEl.addEventListener("click", answerAreaEventHandler);
