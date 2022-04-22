@@ -1,12 +1,15 @@
+var mainBodyEl = document.querySelector(".main-body");
 var startBtnEl = document.querySelector("#start-btn");
 var scoreBtnEl = document.querySelector(".high-score-btn");
 var questionAreaEl = document.querySelector(".question");
 var answersAreaEl = document.querySelector(".answers-area");
 var timerEl = document.querySelector("#timer");
 var responseEl = document.querySelector(".response-area");
+var nameFormEl = document.querySelector("#name-form");
 var timer = 0;
 var questionCounter = 0;
 var points = 0;
+var atScoreScreen = false;
 var questions = [
     {
         qNum: 1,
@@ -36,14 +39,14 @@ var questions = [
 var highScores = [];
 
 function answerAreaEventHandler(event){
+    event.preventDefault();
+
     var buttonClicked = event.target;
     var userAnswer = buttonClicked.getAttribute("data-choice");
-    // console.log(event.target);
-    // console.log(userAnswer);
     if (buttonClicked.hasAttribute("data-start")){
         startQuiz();
     }
-    else{
+    else if(buttonClicked.hasAttribute("data-choice")){
         checkAnswer(userAnswer);
     }
 
@@ -160,28 +163,112 @@ function startTimer(){
             timer--;
         }
         else{
-            console.log("time is up");
-            scoreScreen();
+            if(!atScoreScreen){
+                scoreScreen();
+            }
             clearInterval(timeLeft);
         }
     }, 1000);
-
+}
+function stopTimer(){
+    timer = 0;
+    timerEl.textContent = timer;
 }
 
 function scoreScreen(){
+    points = calcScore();
+    atScoreScreen = true;
+    stopTimer();
     //prompt for name or initials and save to local storage
     console.log("display the high scores");
-    questionAreaEl.textContent = "High Scores"
     for(var i = 0; i < 4; i++){
         var btnEl = document.getElementById("btn-" + (i+1));
         btnEl.remove();
     }
+    questionAreaEl.textContent = "High Scores";
+    var scoreEl = document.createElement("div");
+    scoreEl.textContent = "Your Score: " + points;
+    answersAreaEl.appendChild(scoreEl);
+
+    enterName();
+    sortScores();
+    displayScores();
+}
+function calcScore(){
+    var score = points + timer;
+    return score;
+}
+
+function enterName(){
+    // questionAreaEl.textContent = "High Scores";
+    var userName = '';
+    var userNameFormEl = document.createElement("div");
+    userNameFormEl.className = "name-form";
+    userNameFormEl.innerHTML = "<form id='name-form'><input type='text' name='user-name' data-name='name' placeholder='Enter your name!' /><button class='score-btn' data-name='name' type='submit'>Ok</button></form>";
+    nameFormEl.appendChild(userNameFormEl);
+    // var nameForm = document.querySelector("#name-form");
+    userNameFormEl.addEventListener("submit", function(event){
+        event.preventDefault();
+        userName = document.querySelector("input[name='user-name']").value;
+        sortScores(userName)
+    });
+    console.log("name: " + userName);
+}
+function populateScoreArray(){
+    var savedScores = localStorage.getItem("highScores");
+    if(savedScores === null){
+        return false;
+    }
+    savedScores = JSON.parse(savedScores);
+    highScores = savedScores;
+}
+function sortScores(name){
+    //convert name and score to an object, add it to highScore array, then sort array by score
+    // then save the array to local storage
+    populateScoreArray();
+    console.log("sort scores function");
+    var userScore = {
+        name: name,
+        score: points
+    }
+    highScores.push(userScore);
+
+    // if there is more than one element in the highScore array, uses a selection sort to sort by points in descending order
+    if(highScores.length > 1){
+        var temp = '';
+        var max_index = 0;
+        for(var i = 0; i < highScores.length - 1; i++){
+            max_index = i;
+            for(var j = i+1; j < highScores.length; j++){
+                if(highScores[j].score > highScores[max_index].score){
+                    max_index = j;
+                }
+                temp = highScores[max_index];
+                highScores[max_index] = highScores[i];
+                highScores[i] = temp;
+            }
+        }
+    }
+    localStorage.setItem("highScores", JSON.stringify(highScores));
+
+}
+function displayScores(){
+    //get the array from local storage and display it
+    //append list items for scores to answersAreaEl
+    populateScoreArray();
+    console.log("display scores function");
+    questionAreaEl.textContent = "High Scores";
 }
 
 function resetQuiz(){
     //should go from the score screen back to the quiz screen
     
 }
+// function scoreHandler(event){
+//     event.preventDefault();
+//     console.log("score handler");
+// }
 
-scoreBtnEl.addEventListener("click", scoreScreen);
+scoreBtnEl.addEventListener("click", displayScores);
 answersAreaEl.addEventListener("click", answerAreaEventHandler);
+// nameFormEl.addEventListener("submit", scoreHandler);
