@@ -152,6 +152,7 @@ function showIncorrect(){
 
 function startTimer(){
     timer = 90;
+    timerEl.textContent = timer;
 
     var timeLeft = setInterval(function(){
         if(timer >= 0){
@@ -170,10 +171,16 @@ function startTimer(){
 function scoreScreen(){
     //prompt for name or initials and save to local storage
     console.log("display the high scores");
+    questionAreaEl.textContent = "High Scores"
+    for(var i = 0; i < 4; i++){
+        var btnEl = document.getElementById("btn-" + (i+1));
+        btnEl.remove();
+    }
 }
 
 function resetQuiz(){
     //should go from the score screen back to the quiz screen
+    
 }
 
 scoreBtnEl.addEventListener("click", scoreScreen);
