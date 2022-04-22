@@ -3,6 +3,7 @@ var scoreBtnEl = document.querySelector(".high-score-btn");
 var questionAreaEl = document.querySelector(".question");
 var answersAreaEl = document.querySelector(".answers-area");
 var timerEl = document.querySelector("#timer");
+var responseEl = document.querySelector(".response-area");
 var timer = 0;
 var questionCounter = 0;
 var points = 0;
@@ -37,8 +38,8 @@ var highScores = [];
 function answerAreaEventHandler(event){
     var buttonClicked = event.target;
     var userAnswer = buttonClicked.getAttribute("data-choice");
-    console.log(event.target);
-    console.log(userAnswer);
+    // console.log(event.target);
+    // console.log(userAnswer);
     if (buttonClicked.hasAttribute("data-start")){
         startQuiz();
     }
@@ -93,14 +94,19 @@ function setButtonText(index){
 function checkAnswer(userAnswer){
     //check the id of the button clicked against the answer key and update the timer
     //should probably call next question function
-    console.log("check answer");
+    // console.log("check answer");
     if(userAnswer === questions[questionCounter].correct){
-        console.log("correct answer");
+        showCorrect();
+        points += 10;
     }
     else{
-        console.log("incorrect answer");
+        showIncorrect();
+        timer -= 15;                        //remove 15 sec from the timer
+        timerEl.textContent = timer;        //updates the timer text immediately rather than each second
     }
+
     questionCounter++;
+    //if there are more questions go to the next one otherwise show the score screen
     if(questionCounter === questions.length){
         scoreScreen();
     }
@@ -111,8 +117,7 @@ function checkAnswer(userAnswer){
 
 function nextQuestion(){
     //update text content for question and choice buttons
-    console.log("show next question");
-    // var questionTextEl = document.getElementById("question-text");
+    // console.log("show next question");
     var btn1 = document.getElementById("btn-1");
     var btn2 = document.getElementById("btn-2");
     var btn3 = document.getElementById("btn-3");
@@ -126,13 +131,27 @@ function nextQuestion(){
 
 function showCorrect(){
     //shows that the answer was correct, then clears it after a short time
+    console.log("correct answer");
+    responseEl.textContent = "Correct";
+
+    var clearResponse = setInterval(function(){
+        responseEl.textContent = "";
+        clearInterval(clearResponse);
+    }, 5000)
 }
 function showIncorrect(){
     //show that the answer was incorrect, then clears it after a short time
+    console.log("incorrect answer");
+    responseEl.textContent = "Incorrect";
+
+    var clearResponse = setInterval(function(){
+        responseEl.textContent = "";
+        clearInterval(clearResponse);
+    }, 5000)
 }
 
 function startTimer(){
-    timer = 10;
+    timer = 90;
 
     var timeLeft = setInterval(function(){
         if(timer >= 0){
@@ -145,7 +164,6 @@ function startTimer(){
             clearInterval(timeLeft);
         }
     }, 1000);
-
 
 }
 
