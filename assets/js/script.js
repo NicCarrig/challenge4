@@ -2,10 +2,10 @@ var startBtnEl = document.querySelector("#start-btn");
 var scoreBtnEl = document.querySelector(".high-score-btn");
 var questionAreaEl = document.querySelector(".question");
 var answersAreaEl = document.querySelector(".answers-area");
-// var answerButtonEl = document.querySelector(".answer-btn");
 var timerEl = document.querySelector("#timer");
 var timer = 0;
 var questionCounter = 0;
+var points = 0;
 var questions = [
     {
         qNum: 1,
@@ -20,26 +20,30 @@ var questions = [
     },
     {
         qNum: 2,
-        question: "What is the correct notation for an array?",
+        question: "What are global variables?",
         choice: {
-            a: "'  '",
-            b: "( )",
-            c: "[ ]",
-            d: "< >"
+            a: "Variables that are available throughout the code without any scope",
+            b: "Variables that are declared in a function",
+            c: "Variables that cannot be changed",
+            d: "Variables that are used by a GPS"
         },
-        correct: "c"
+        correct: "a"
     }
 
 ];
 
+var highScores = [];
+
 function answerAreaEventHandler(event){
-    console.log(event.target);
     var buttonClicked = event.target;
+    var userAnswer = buttonClicked.getAttribute("data-choice");
+    console.log(event.target);
+    console.log(userAnswer);
     if (buttonClicked.hasAttribute("data-start")){
         startQuiz();
     }
     else{
-        checkAnswer();
+        checkAnswer(userAnswer);
     }
 
 }
@@ -56,6 +60,7 @@ function startQuiz(){
         var choiceList = document.createElement("li");
         var choiceBtn = document.createElement("button");
         choiceBtn.setAttribute("class", "answer-btn");
+        choiceBtn.setAttribute("id", "btn-"+(i+1));
         choiceBtn.setAttribute("data-choice", letter[i]);
         choiceBtn.textContent = setButtonText(i+1);
         choiceList.appendChild(choiceBtn);
@@ -85,17 +90,45 @@ function setButtonText(index){
     return str;
 }
 
-function checkAnswer(){
+function checkAnswer(userAnswer){
     //check the id of the button clicked against the answer key and update the timer
     //should probably call next question function
     console.log("check answer");
+    if(userAnswer === questions[questionCounter].correct){
+        console.log("correct answer");
+    }
+    else{
+        console.log("incorrect answer");
+    }
     questionCounter++;
-    nextQuestion();
+    if(questionCounter === questions.length){
+        scoreScreen();
+    }
+    else{
+        nextQuestion();
+    }
 }
 
 function nextQuestion(){
     //update text content for question and choice buttons
     console.log("show next question");
+    // var questionTextEl = document.getElementById("question-text");
+    var btn1 = document.getElementById("btn-1");
+    var btn2 = document.getElementById("btn-2");
+    var btn3 = document.getElementById("btn-3");
+    var btn4 = document.getElementById("btn-4");
+    questionAreaEl.textContent = questions[questionCounter].question;
+    btn1.textContent = setButtonText(1);
+    btn2.textContent = setButtonText(2);
+    btn3.textContent = setButtonText(3);
+    btn4.textContent = setButtonText(4);
+}
+
+function showCorrect(){
+    //shows that the answer was correct, then clears it after a short time
+}
+function showIncorrect(){
+    //show that the answer was incorrect, then clears it after a short time
 }
 
 function startTimer(){
@@ -122,7 +155,7 @@ function scoreScreen(){
 }
 
 function resetQuiz(){
-
+    //should go from the score screen back to the quiz screen
 }
 
 scoreBtnEl.addEventListener("click", scoreScreen);
