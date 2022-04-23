@@ -8,6 +8,8 @@ When you click the start button, the timer will be set to 90 and then start coun
 
 The quiz ends when either all of the questions are answered or the timer reachs 0.
 The final score is the points gained from answering correctly plus the remaining seconds lef tone the timer.
+
+
 ![challenge4-ss1](https://user-images.githubusercontent.com/101528994/164884667-8e6bd60f-3ee0-4a59-8b2a-0092ca426f07.png)
 ![challenge4-ss2](https://user-images.githubusercontent.com/101528994/164884672-b75cb898-581f-46f1-8fda-586039556742.png)
 ![challenge4-ss3](https://user-images.githubusercontent.com/101528994/164884681-9258ec79-80a9-4bb8-b057-1208333d836b.png)
