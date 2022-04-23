@@ -33,6 +33,94 @@ var questions = [
             d: "Variables that are used by a GPS"
         },
         correct: "a"
+    },
+    {
+        qNum: 3,
+        question: "Which of the following is not a supported data type in JavaScript?",
+        choice: {
+            a: "Boolean",
+            b: "Number",
+            c: "Value",
+            d: "Object"
+        },
+        correct: "c"
+    },
+    {
+        qNum: 4,
+        question: "What is the logical operator for 'or'?",
+        choice: {
+            a: "..",
+            b: "||",
+            c: "!",
+            d: "&&"
+        },
+        correct: "b"
+    },
+    {
+        qNum: 5,
+        question: "What is the correct way to get an HTML element with the ID of 'main'?",
+        choice: {
+            a: "var mainEL = querySelector('#main');",
+            b: "var mainEl = document.querySelector('.main');",
+            c: "mainEl.querySelector('.main');",
+            d: "var mainEl = document.querySelector('#main');"
+        },
+        correct: "d"
+    },
+    {
+        qNum: 6,
+        question: "If x=5, what would be the result of x+=2",
+        choice: {
+            a: "7",
+            b: "52",
+            c: "2",
+            d: "10"
+        },
+        correct: "a"
+    },
+    {
+        qNum: 7,
+        question: "What is the correct way to use an eventListener?",
+        choice: {
+            a: "targetEl = eventListener('click', function);",
+            b: "targetEl.addEventListener('click', function);",
+            c: "eventListener.targetEl('click', function);",
+            d: "addEventListener.targetEl('click', function);"
+        },
+        correct: "b"
+    },
+    {
+        qNum: 8,
+        question: "How many times would 'for(i=0; i<10; i++)' loop?",
+        choice: {
+            a: "9",
+            b: "10",
+            c: "0",
+            d: "it would cause an error in the code"
+        },
+        correct: "b"
+    },
+    {
+        qNum: 9,
+        question: "What is the difference between '==' and '==='?",
+        choice: {
+            a: "They do the same thing",
+            b: "'==' only works for numerical values",
+            c: "They both check equality of value, but '===' also checks data type",
+            d: "They both check equality of data type, but '===' also checks value"
+        },
+        correct: "c"
+    },
+    {
+        qNum: 10,
+        question: "What is the correct way to get the first element on an array?",
+        choice: {
+            a: "arr[0]",
+            b: "arr[1]",
+            c: "arr(0)",
+            d: "arr(1)"
+        },
+        correct: "a"
     }
 
 ];
@@ -52,7 +140,7 @@ function answerAreaEventHandler(event){
     }
 
 }
-
+//======================================QUIZ QUESTION FUNCTIONS=================================================
 function startQuiz(){
     //should populate the screen with the first question and 4 buttons for multiple choice answers
     //also needs to clear the start button and start the timer
@@ -174,6 +262,7 @@ function stopTimer(){
     timerEl.textContent = timer;
 }
 
+//=================SCORE SCREEN FUNCTIONS==========================================================
 function scoreScreen(){
     points = calcScore();
     atScoreScreen = true;
@@ -293,7 +382,6 @@ function createFooterButtons(){
     resetScoresBtn = document.querySelector("#reset-scores-btn");
     resetQuizBtn.addEventListener("click", resetQuiz);
     resetScoresBtn.addEventListener("click", resetScores);
-
 }
 function resetScores(){
     console.log("reset scores");
@@ -303,6 +391,7 @@ function resetScores(){
 function resetQuiz(){
     //should go from the score screen back to the quiz screen
     console.log("reset quiz");
+    window.location.reload();
 }
 
 
