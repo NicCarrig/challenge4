@@ -6,6 +6,7 @@ var answersAreaEl = document.querySelector(".answers-area");
 var timerEl = document.querySelector("#timer");
 var responseEl = document.querySelector(".response-area");
 var nameFormEl = document.querySelector("#name-form");
+var footerEl = document.querySelector(".footer-area");
 var timer = 0;
 var questionCounter = 0;
 var points = 0;
@@ -134,23 +135,21 @@ function nextQuestion(){
 
 function showCorrect(){
     //shows that the answer was correct, then clears it after a short time
-    console.log("correct answer");
     responseEl.textContent = "Correct";
 
     var clearResponse = setInterval(function(){
         responseEl.textContent = "";
         clearInterval(clearResponse);
-    }, 5000)
+    }, 3000)
 }
 function showIncorrect(){
     //show that the answer was incorrect, then clears it after a short time
-    console.log("incorrect answer");
     responseEl.textContent = "Incorrect";
 
     var clearResponse = setInterval(function(){
         responseEl.textContent = "";
         clearInterval(clearResponse);
-    }, 5000)
+    }, 3000)
 }
 
 function startTimer(){
@@ -180,7 +179,6 @@ function scoreScreen(){
     atScoreScreen = true;
     stopTimer();
     //prompt for name or initials and save to local storage
-    console.log("display the high scores");
     for(var i = 0; i < 4; i++){
         var btnEl = document.getElementById("btn-" + (i+1));
         btnEl.remove();
@@ -191,8 +189,7 @@ function scoreScreen(){
     answersAreaEl.appendChild(scoreEl);
 
     enterName();
-    sortScores();
-    displayScores();
+    //displayScores();
 }
 function calcScore(){
     var score = points + timer;
@@ -201,18 +198,31 @@ function calcScore(){
 
 function enterName(){
     // questionAreaEl.textContent = "High Scores";
-    var userName = '';
     var userNameFormEl = document.createElement("div");
     userNameFormEl.className = "name-form";
     userNameFormEl.innerHTML = "<form id='name-form'><input type='text' name='user-name' data-name='name' placeholder='Enter your name!' /><button class='score-btn' data-name='name' type='submit'>Ok</button></form>";
     nameFormEl.appendChild(userNameFormEl);
-    // var nameForm = document.querySelector("#name-form");
-    userNameFormEl.addEventListener("submit", function(event){
-        event.preventDefault();
-        userName = document.querySelector("input[name='user-name']").value;
-        sortScores(userName)
-    });
-    console.log("name: " + userName);
+    userNameFormEl.addEventListener("submit", checkName);
+}
+function checkName(event){
+    var userName = '';
+    event.preventDefault();
+    console.log(event);
+    userName = document.querySelector("input[name='user-name']").value;
+    //name input verification
+    if(!userName){
+        //if the name is empty, exit the function
+        alert("Please enter a name");
+        return false;
+    }
+    else{
+        //remove the button and text input then run score function
+        while(nameFormEl.hasChildNodes()){
+            var nameFormChild = nameFormEl.firstChild;
+            nameFormEl.removeChild(nameFormChild);
+        }
+        sortScores(userName);
+    }
 }
 function populateScoreArray(){
     var savedScores = localStorage.getItem("highScores");
@@ -225,8 +235,8 @@ function populateScoreArray(){
 function sortScores(name){
     //convert name and score to an object, add it to highScore array, then sort array by score
     // then save the array to local storage
+    console.log("score function ran");
     populateScoreArray();
-    console.log("sort scores function");
     var userScore = {
         name: name,
         score: points
@@ -250,7 +260,7 @@ function sortScores(name){
         }
     }
     localStorage.setItem("highScores", JSON.stringify(highScores));
-
+    displayScores();
 }
 function displayScores(){
     //get the array from local storage and display it
@@ -260,7 +270,6 @@ function displayScores(){
         var ansChild = answersAreaEl.firstChild;
         answersAreaEl.removeChild(ansChild);
     }
-    console.log("display scores function");
     questionAreaEl.textContent = "High Scores";
     for(var i = 0; i < highScores.length; i++){
         var scoreListItem = document.createElement("li");
@@ -268,11 +277,32 @@ function displayScores(){
         scoreListItem.textContent = highScores[i].name +": " + highScores[i].score;
         answersAreaEl.appendChild(scoreListItem);
     }
+    createFooterButtons();
 }
+function createFooterButtons(){
+    //make a button element for resetting the high scores and another for taking the quiz again
+    var resetQuizBtn = document.createElement("button");
+    resetQuizBtn.textContent = "Take Quiz";
+    resetQuizBtn.setAttribute("id", "reset-quiz-btn");
+    footerEl.appendChild(resetQuizBtn);
+    var resetScoresBtn = document.createElement("button");
+    resetScoresBtn.textContent = "Reset High Scores";
+    resetScoresBtn.setAttribute("id", "reset-scores-btn");
+    footerEl.appendChild(resetScoresBtn);
+    resetQuizBtn = document.querySelector("#reset-quiz-btn");
+    resetScoresBtn = document.querySelector("#reset-scores-btn");
+    resetQuizBtn.addEventListener("click", resetQuiz);
+    resetScoresBtn.addEventListener("click", resetScores);
 
+}
+function resetScores(){
+    console.log("reset scores");
+    localStorage.clear();
+    //could also use localStorage.removeItem("highScores") if local storage needed from something else
+}
 function resetQuiz(){
     //should go from the score screen back to the quiz screen
-    
+    console.log("reset quiz");
 }
 
 
