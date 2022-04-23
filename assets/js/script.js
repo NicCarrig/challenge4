@@ -1,3 +1,4 @@
+var headerEl = document.querySelector("#header-area");
 var mainBodyEl = document.querySelector(".main-body");
 var startBtnEl = document.querySelector("#start-btn");
 var scoreBtnEl = document.querySelector(".high-score-btn");
@@ -205,6 +206,9 @@ function checkAnswer(userAnswer){
     else{
         nextQuestion();
     }
+    if(timer <= 0){
+        scoreScreen();
+    }
 }
 
 function nextQuestion(){
@@ -355,6 +359,10 @@ function displayScores(){
     //get the array from local storage and display it
     //append list items for scores to answersAreaEl
     populateScoreArray();
+    while(headerEl.hasChildNodes()){
+        var headerChild = headerEl.firstChild;
+        headerEl.removeChild(headerChild);
+    }
     while(answersAreaEl.hasChildNodes()){
         var ansChild = answersAreaEl.firstChild;
         answersAreaEl.removeChild(ansChild);

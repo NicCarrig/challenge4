@@ -8,14 +8,16 @@
     <title>Coding Quiz</title>
 </head>
 <body>
-    <header>
+    <header id="header-area">
         <button class="high-score-btn">View High Scores</button>
         <h3>Timer: <span id="timer">0</span></h3>
     </header>
 
     <main class="main-body">
-        <h2 class="question" id="question-text">Question area</h2>
-        <!-- <form id='name-form'><input type='text' placeholder='Enter your name!' /><button class='score-btn' type='submit'>Ok</button></form> -->
+        <h2 class="question" id="question-text">Welcome to the Challenge 4 Coding Quiz! <br/>
+            You have 90 seconds to answer 10 questions. Each correct question will add 10 points to your score. However, getting a question wrong will decrease your remaining time by 15 seconds.<br/>
+            Your final score will be the points you got for each correct question plus the remaining seconds left on your timer.<br/>The quiz will end if the timer runs out.
+        </h2>
         <div class="answers-area">
             <ul class="answer-choices">
                 <li><button id="start-btn" data-start="start">Start Quiz</button></li>

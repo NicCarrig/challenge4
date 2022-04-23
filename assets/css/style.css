@@ -1,32 +1,72 @@
 :root{
     --prpl: #41096e;
 }
-
+/* GLOBAL STYLING */
 *{
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+button{
+    background-color: var(--prpl);
+    color: white;
+    padding: 20px;
+    border: none;
+    height: 35px;
+    border-radius: 10px;
+    padding-bottom: 40px;
+}
+button:hover{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
 
+/* HEADER STYLING */
 header{
     display: flex;
     justify-content: space-between;
     position: sticky;
 }
 
+/* MAIN BODY STYLING */
 main{
     justify-content: center;
     text-align: center;
 }
-
-button{
-    background-color: var(--prpl);
-    color: white;
+main h2 {
+    padding: 0 10%;
+}
+input{
+    height: 55px;
+    border: #41096e solid 2px;
+}
+li{
+    margin: 10px 0;
+}
+.score-btn{
+    border-radius: 0;
+    padding-bottom: 36px;
+}
+.answer-btn{
+    width: 500px;
 }
 
+/* FOOTER STYLING */
 footer{
+    position: absolute;
+    bottom: 0;
+    width: 80%;
+    margin: 0 10%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
 }
+footer button{
+    margin: 0 100px;
+}
+/* #reset-quiz-btn{
+    float: left;
+}
+#reset-scores-btn{
+    float: right;
+} */
