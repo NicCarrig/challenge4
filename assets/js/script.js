@@ -256,18 +256,25 @@ function displayScores(){
     //get the array from local storage and display it
     //append list items for scores to answersAreaEl
     populateScoreArray();
+    while(answersAreaEl.hasChildNodes()){
+        var ansChild = answersAreaEl.firstChild;
+        answersAreaEl.removeChild(ansChild);
+    }
     console.log("display scores function");
     questionAreaEl.textContent = "High Scores";
+    for(var i = 0; i < highScores.length; i++){
+        var scoreListItem = document.createElement("li");
+        scoreListItem.setAttribute("id", "score-list-item");
+        scoreListItem.textContent = highScores[i].name +": " + highScores[i].score;
+        answersAreaEl.appendChild(scoreListItem);
+    }
 }
 
 function resetQuiz(){
     //should go from the score screen back to the quiz screen
     
 }
-// function scoreHandler(event){
-//     event.preventDefault();
-//     console.log("score handler");
-// }
+
 
 scoreBtnEl.addEventListener("click", displayScores);
 answersAreaEl.addEventListener("click", answerAreaEventHandler);
